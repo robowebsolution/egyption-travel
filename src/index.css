@@ -1,0 +1,102 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Egyptian-inspired design system with modern 2025 trends - Light Mode Only */
+
+@layer base {
+  :root {
+    /* Light Mode - Soft sand, beige, white, warm gold */
+    --background: 39 20% 97%;
+    --foreground: 30 15% 15%;
+
+    --card: 42 25% 96%;
+    --card-foreground: 30 15% 15%;
+
+    --popover: 42 25% 96%;
+    --popover-foreground: 30 15% 15%;
+
+    --primary: 37 65% 45%;
+    --primary-foreground: 42 25% 96%;
+
+    --secondary: 42 25% 92%;
+    --secondary-foreground: 30 15% 15%;
+
+    --muted: 42 20% 94%;
+    --muted-foreground: 30 10% 45%;
+
+    --accent: 37 65% 45%;
+    --accent-foreground: 42 25% 96%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 42 20% 88%;
+    --input: 42 20% 88%;
+    --ring: 37 65% 45%;
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 42 25% 96%;
+    --sidebar-foreground: 30 15% 15%;
+    --sidebar-primary: 37 65% 45%;
+    --sidebar-primary-foreground: 42 25% 96%;
+    --sidebar-accent: 42 20% 94%;
+    --sidebar-accent-foreground: 30 15% 15%;
+    --sidebar-border: 42 20% 88%;
+    --sidebar-ring: 37 65% 45%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+    background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23d4b76a' fill-opacity='0.01' fill-rule='evenodd'%3E%3Cpath d='m0 40l40-40h-40v40zm40 0v-40h-40l40 40z'/%3E%3C/g%3E%3C/svg%3E");
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold tracking-tight;
+  }
+
+  .egyptian-border {
+    border-image: linear-gradient(45deg, #d4b76a, #e5a317, #d4b76a) 1;
+  }
+
+  .glass-effect {
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .text-gradient-gold {
+    background: linear-gradient(135deg, #d4b76a, #e5a317, #f2bd45);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .bg-gradient-egyptian {
+    background: linear-gradient(135deg, #fdfcf7, #f4edc5, #eddfa2);
+  }
+
+  .hero-pattern {
+    background-image: 
+      radial-gradient(circle at 25% 25%, rgba(212, 183, 106, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 75% 75%, rgba(229, 163, 23, 0.1) 0%, transparent 50%);
+  }
+}

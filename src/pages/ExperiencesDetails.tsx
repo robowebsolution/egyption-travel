@@ -93,7 +93,7 @@ const ExperiencesDetails = () => {
               <h1 className="text-3xl font-bold mb-2 text-pharaoh-700">{exp.title}</h1>
               <div className="flex flex-wrap gap-2 mb-4">
                 <Badge className="bg-pharaoh-50 text-pharaoh-700"><Calendar className="inline w-4 h-4 ml-1" /> {exp.duration}</Badge>
-                <Badge className="bg-pharaoh-100 text-pharaoh-800 font-bold">{exp.price} $</Badge>
+                <Badge className="bg-pharaoh-100 text-pharaoh-800 font-bold text-lg px-4 py-2">{exp.price} <span className="text-base">$</span></Badge>
               </div>
               <p className="text-base text-gray-600 mb-6 leading-relaxed">{exp.description}</p>
               <h2 className="text-xl font-semibold mb-2 text-pharaoh-600">{t('experience.highlights')}</h2>
@@ -110,6 +110,9 @@ const ExperiencesDetails = () => {
           </div>
           {/* نموذج الحجز */}
           <div className="bg-white rounded-xl shadow-xl p-8 flex flex-col justify-center">
+            <div className="mb-4 text-center">
+              <span className="inline-block bg-pharaoh-100 text-pharaoh-800 font-bold text-xl rounded-lg px-6 py-2 shadow">{exp.price} <span className="text-base">$</span></span>
+            </div>
             {success ? (
               <div className="text-center text-green-600 font-semibold text-lg py-10">
                 {t('package.success')}

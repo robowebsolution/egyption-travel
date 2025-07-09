@@ -95,7 +95,7 @@ const PackageDetails = () => {
                 <Badge className="bg-pharaoh-50 text-pharaoh-700"><Calendar className="inline w-4 h-4 ml-1" /> {pkg.duration}</Badge>
                 <Badge className="bg-pharaoh-50 text-pharaoh-700"><Users className="inline w-4 h-4 ml-1" /> {pkg.groupSize}</Badge>
                 <Badge className="bg-pharaoh-50 text-pharaoh-700">⭐ {pkg.rating}</Badge>
-                <Badge className="bg-pharaoh-100 text-pharaoh-800 font-bold">{pkg.price}</Badge>
+                <Badge className="bg-pharaoh-100 text-pharaoh-800 font-bold text-lg px-4 py-2">{pkg.price} <span className="text-base">$</span></Badge>
               </div>
               <p className="text-base text-gray-600 mb-6 leading-relaxed">{pkg.description}</p>
               <h2 className="text-xl font-semibold mb-2 text-pharaoh-600">{t('package.highlights')}</h2>
@@ -113,6 +113,9 @@ const PackageDetails = () => {
           {/* نموذج الحجز */}
           <div className="bg-white rounded-xl shadow-xl p-8 flex flex-col justify-center">
             <h2 className="text-2xl font-bold mb-6 text-pharaoh-700 text-center">{t('package.bookNow')}</h2>
+            <div className="mb-4 text-center">
+              <span className="inline-block bg-pharaoh-100 text-pharaoh-800 font-bold text-xl rounded-lg px-6 py-2 shadow">{pkg.price} <span className="text-base">$</span></span>
+            </div>
             {success ? (
               <div className="text-green-600 text-center font-semibold">
                 {t('package.success')}

@@ -1,31 +1,49 @@
-
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { ChevronRight, MapPin } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { createClient } from '@supabase/supabase-js';
+
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 const HeroSection = () => {
   const { t } = useLanguage();
-
-  const backgroundImages = [
-    'https://images.unsplash.com/photo-1472396961693-142e6e269027?auto=format&fit=crop&w=1920&q=80', // Pyramids
-    'https://images.unsplash.com/photo-1433086966358-54859d0ed716?auto=format&fit=crop&w=1920&q=80', // Nile
-    'https://images.unsplash.com/photo-1466442929976-97f336a657be?auto=format&fit=crop&w=1920&q=80', // Mosque
-    'https://images.unsplash.com/photo-1426604966848-d7adac402bff?auto=format&fit=crop&w=1920&q=80', // Desert landscape
-    'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1920&q=80' // Oasis
-  ];
-
+  const [backgroundImages, setBackgroundImages] = useState<string[]>([]);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Fetch images from Supabase
+    const fetchImages = async () => {
+      setLoading(true);
+      const { data, error } = await supabase
+        .from('hero_images')
+        .select('url')
+        .order('order_index', { ascending: true });
+      if (!error && data) {
+        setBackgroundImages(data.map((img) => img.url));
+      }
+      setLoading(false);
+    };
+    fetchImages();
+  }, []);
+
+  useEffect(() => {
+    if (backgroundImages.length === 0) return;
     const interval = setInterval(() => {
       setCurrentImageIndex((prev) => (prev + 1) % backgroundImages.length);
     }, 5000); // Change image every 5 seconds
 
     return () => clearInterval(interval);
   }, [backgroundImages.length]);
+
+  if (loading) {
+    return <div className="min-h-screen flex items-center justify-center text-white text-xl">Loading...</div>;
+  }
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
@@ -92,7 +110,7 @@ const HeroSection = () => {
           >
             <div className="h-px w-12 bg-pharaoh-400" />
             <span className="text-pharaoh-300 font-medium tracking-wider text-sm uppercase">
-              Luxury Egyptian Adventures
+              {t('hero.ctaSubtitle') || 'Luxury Egyptian Adventures'}
             </span>
             <div className="h-px w-12 bg-pharaoh-400" />
           </motion.div>
@@ -141,7 +159,7 @@ const HeroSection = () => {
             <Button asChild variant="outline" size="lg" className="group bg-white/10 border-white/30 text-white hover:bg-white/20">
               <Link to="/destinations" className="flex items-center gap-2">
                 <MapPin className="w-4 h-4" />
-                Explore Destinations
+                {t('hero.exploreDestinations') || 'Explore Destinations'}
                 <motion.div
                   whileHover={{ x: 5 }}
                   transition={{ type: "spring", stiffness: 400, damping: 10 }}
@@ -160,9 +178,9 @@ const HeroSection = () => {
             className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-16 max-w-2xl mx-auto"
           >
             {[
-              { number: '15+', label: 'Unique Destinations' },
-              { number: '500+', label: 'Happy Travelers' },
-              { number: '50+', label: 'Cultural Experiences' }
+              { number: '15+', label: t('hero.stats.destinations') || 'Unique Destinations' },
+              { number: '500+', label: t('hero.stats.travelers') || 'Happy Travelers' },
+              { number: '50+', label: t('hero.stats.experiences') || 'Cultural Experiences' }
             ].map((stat, index) => (
               <motion.div
                 key={index}

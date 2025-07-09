@@ -6,15 +6,17 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { MapPin } from 'lucide-react';
 import { useDestinations } from '@/hooks/useDestinations';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const TopDestinations = () => {
   const { data: destinations, isLoading, error } = useDestinations();
+  const { t } = useLanguage();
 
   if (isLoading) {
     return (
       <section className="py-20 bg-background">
         <div className="container mx-auto px-4">
-          <div className="text-center">Loading destinations...</div>
+          <div className="text-center">{t('destinations.loading') || 'Loading destinations...'}</div>
         </div>
       </section>
     );
@@ -24,7 +26,7 @@ const TopDestinations = () => {
     return (
       <section className="py-20 bg-background">
         <div className="container mx-auto px-4">
-          <div className="text-center text-red-600">Failed to load destinations</div>
+          <div className="text-center text-red-600">{t('error.loading') || 'Failed to load destinations'}</div>
         </div>
       </section>
     );
@@ -46,8 +48,7 @@ const TopDestinations = () => {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.5,
-        ease: [0.23, 1, 0.32, 1]
+        duration: 0.5
       }
     }
   };
@@ -65,16 +66,16 @@ const TopDestinations = () => {
           <div className="flex items-center justify-center gap-2 mb-6">
             <div className="h-px w-12 bg-pharaoh-400" />
             <span className="text-pharaoh-600 font-medium tracking-wider text-sm uppercase">
-              Top Destinations
+              {t('destinations.title')}
             </span>
             <div className="h-px w-12 bg-pharaoh-400" />
           </div>
           
           <h2 className="text-3xl md:text-5xl font-bold mb-6 text-gradient-gold">
-            Discover Egypt's Hidden Gems
+            {t('destinations.subtitle')}
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            From ancient wonders to pristine beaches, explore the most captivating destinations Egypt has to offer
+            {t('destinations.description') || "From ancient wonders to pristine beaches, explore the most captivating destinations Egypt has to offer"}
           </p>
         </motion.div>
 
@@ -87,7 +88,7 @@ const TopDestinations = () => {
         >
           {destinations?.map((destination) => (
             <motion.div key={destination.id} variants={cardVariants}>
-              <Link to={`/destinations/${destination.id}`} className="block h-full">
+              <Link to={`/destinations-trips/${destination.id}`} className="block h-full">
                 <Card className="group overflow-hidden hover:shadow-2xl transition-all duration-300 border-0 bg-white/80 backdrop-blur-sm h-full">
                   <div className="relative overflow-hidden">
                     <img
@@ -112,7 +113,7 @@ const TopDestinations = () => {
                     
                     <div className="space-y-3">
                       <div>
-                        <h4 className="font-semibold text-pharaoh-900 mb-2">Activities</h4>
+                        <h4 className="font-semibold text-pharaoh-900 mb-2">{t('destinations.activities') || 'Activities'}</h4>
                         <div className="flex flex-wrap gap-2">
                           {destination.activities.map((activity, index) => (
                             <Badge key={index} variant="secondary" className="text-xs">
@@ -123,7 +124,7 @@ const TopDestinations = () => {
                       </div>
                       
                       <div>
-                        <h4 className="font-semibold text-pharaoh-900 mb-2">Highlights</h4>
+                        <h4 className="font-semibold text-pharaoh-900 mb-2">{t('destinations.highlights') || 'Highlights'}</h4>
                         <ul className="text-sm text-muted-foreground space-y-1">
                           {destination.highlights.slice(0, 3).map((highlight, index) => (
                             <li key={index} className="flex items-center gap-2">

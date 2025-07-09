@@ -24,5 +24,8 @@ export const useDestinations = () => {
       if (error) throw error;
       return data as Destination[];
     },
+    staleTime: 1000 * 60 * 5,
+    refetchOnWindowFocus: false,
+    retry: 1,
   });
 };

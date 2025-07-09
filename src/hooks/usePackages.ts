@@ -26,5 +26,8 @@ export const usePackages = () => {
       if (error) throw error;
       return data as Package[];
     },
+    staleTime: 1000 * 60 * 5,
+    refetchOnWindowFocus: false,
+    retry: 1,
   });
 };

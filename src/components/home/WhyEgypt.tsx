@@ -11,33 +11,33 @@ const WhyEgypt = () => {
   const benefits = [
     {
       icon: Crown,
-      title: 'Rich Heritage',
-      description: 'Explore 5,000 years of fascinating history and ancient civilization'
+      title: t('whyEgypt.benefit1.title') || 'Rich Heritage',
+      description: t('whyEgypt.benefit1.desc') || 'Explore 5,000 years of fascinating history and ancient civilization'
     },
     {
       icon: Mountain,
-      title: 'Diverse Landscapes',
-      description: 'From Red Sea reefs to Sahara dunes and Nile valleys'
+      title: t('whyEgypt.benefit2.title') || 'Diverse Landscapes',
+      description: t('whyEgypt.benefit2.desc') || 'From Red Sea reefs to Sahara dunes and Nile valleys'
     },
     {
       icon: Heart,
-      title: 'Warm Hospitality',
-      description: 'Experience genuine Egyptian warmth and traditional welcome'
+      title: t('whyEgypt.benefit3.title') || 'Warm Hospitality',
+      description: t('whyEgypt.benefit3.desc') || 'Experience genuine Egyptian warmth and traditional welcome'
     },
     {
       icon: Shield,
-      title: 'Safe Travel',
-      description: 'Well-established tourism infrastructure with experienced guides'
+      title: t('whyEgypt.benefit4.title') || 'Safe Travel',
+      description: t('whyEgypt.benefit4.desc') || 'Well-established tourism infrastructure with experienced guides'
     },
     {
       icon: Coins,
-      title: 'Great Value',
-      description: 'Affordable luxury experiences and exceptional value for money'
+      title: t('whyEgypt.benefit5.title') || 'Great Value',
+      description: t('whyEgypt.benefit5.desc') || 'Affordable luxury experiences and exceptional value for money'
     },
     {
       icon: Users,
-      title: 'Local Expertise',
-      description: 'Native guides sharing authentic stories and hidden gems'
+      title: t('whyEgypt.benefit6.title') || 'Local Expertise',
+      description: t('whyEgypt.benefit6.desc') || 'Native guides sharing authentic stories and hidden gems'
     }
   ];
 
@@ -76,7 +76,7 @@ const WhyEgypt = () => {
           <div className="flex items-center justify-center gap-2 mb-6">
             <div className="h-px w-12 bg-pharaoh-400" />
             <span className="text-pharaoh-600 font-medium tracking-wider text-sm uppercase">
-              Why Choose Egypt
+              {t('whyEgypt.title')}
             </span>
             <div className="h-px w-12 bg-pharaoh-400" />
           </div>

@@ -10,22 +10,22 @@ const Footer = () => {
 
   const footerLinks = {
     destinations: [
-      { name: 'Dahab', href: '/destinations' },
-      { name: 'Siwa Oasis', href: '/destinations' },
-      { name: 'Luxor', href: '/destinations' },
-      { name: 'White Desert', href: '/destinations' },
+      { name: t('footer.dahab') || 'Dahab', href: '/destinations' },
+      { name: t('footer.siwa') || 'Siwa Oasis', href: '/destinations' },
+      { name: t('footer.luxor') || 'Luxor', href: '/destinations' },
+      { name: t('footer.whiteDesert') || 'White Desert', href: '/destinations' },
     ],
     experiences: [
-      { name: 'Desert Safari', href: '/experiences' },
-      { name: 'Diving Tours', href: '/experiences' },
-      { name: 'Cultural Immersion', href: '/experiences' },
-      { name: 'Photography Tours', href: '/experiences' },
+      { name: t('footer.safari') || 'Desert Safari', href: '/experiences' },
+      { name: t('footer.diving') || 'Diving Tours', href: '/experiences' },
+      { name: t('footer.culture') || 'Cultural Immersion', href: '/experiences' },
+      { name: t('footer.photo') || 'Photography Tours', href: '/experiences' },
     ],
     company: [
       { name: t('nav.about'), href: '/about' },
       { name: t('nav.contact'), href: '/contact' },
       { name: t('nav.blog'), href: '/blog' },
-      { name: 'Privacy Policy', href: '/privacy' },
+      { name: t('footer.privacy') || 'Privacy Policy', href: '/privacy' },
     ]
   };
 
@@ -40,8 +40,7 @@ const Footer = () => {
               <span className="text-xl font-bold text-gradient-gold">Egyptian Dreams</span>
             </Link>
             <p className="text-muted-foreground text-sm leading-relaxed mb-6 max-w-md">
-              Creating unforgettable journeys through Egypt's timeless wonders. 
-              Experience authentic Egyptian culture with our expert local guides.
+              {t('footer.description') || "Creating unforgettable journeys through Egypt's timeless wonders. Experience authentic Egyptian culture with our expert local guides."}
             </p>
             
             {/* Contact Info */}
@@ -64,7 +63,7 @@ const Footer = () => {
           {/* Quick Links */}
           <div>
             <h4 className="font-semibold mb-4 text-pharaoh-600 dark:text-pharaoh-400">
-              Popular Destinations
+              {t('footer.popularDestinations') || 'Popular Destinations'}
             </h4>
             <ul className="space-y-2">
               {footerLinks.destinations.map((link) => (
@@ -82,7 +81,7 @@ const Footer = () => {
 
           <div>
             <h4 className="font-semibold mb-4 text-pharaoh-600 dark:text-pharaoh-400">
-              Experiences
+              {t('footer.experiences') || 'Experiences'}
             </h4>
             <ul className="space-y-2">
               {footerLinks.experiences.map((link) => (
@@ -100,7 +99,7 @@ const Footer = () => {
 
           <div>
             <h4 className="font-semibold mb-4 text-pharaoh-600 dark:text-pharaoh-400">
-              Company
+              {t('footer.company') || 'Company'}
             </h4>
             <ul className="space-y-2">
               {footerLinks.company.map((link) => (
@@ -120,10 +119,10 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="border-t border-border/50 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-sm text-muted-foreground">
-            © 2025 Egyptian Dreams. All rights reserved.
+            {t('footer.rights') || '© 2025 Egyptian Dreams. All rights reserved.'}
           </p>
           <div className="flex items-center gap-6">
-            <span className="text-sm text-muted-foreground">Follow us:</span>
+            <span className="text-sm text-muted-foreground">{t('footer.followUs') || 'Follow us:'}</span>
             <div className="flex gap-4">
               {['Facebook', 'Instagram', 'Twitter'].map((social) => (
                 <motion.a

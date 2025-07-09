@@ -44,7 +44,7 @@ const NewsletterSignup = () => {
               <div className="flex items-center justify-center gap-2 mb-4">
                 <div className="h-px w-12 bg-pharaoh-400" />
                 <span className="text-pharaoh-600 dark:text-pharaoh-400 font-medium tracking-wider text-sm uppercase">
-                  Stay Connected
+                  {t('newsletter.stayConnected') || 'Stay Connected'}
                 </span>
                 <div className="h-px w-12 bg-pharaoh-400" />
               </div>
@@ -71,12 +71,12 @@ const NewsletterSignup = () => {
                   disabled={isLoading}
                   className="sm:px-8"
                 >
-                  {isLoading ? 'Subscribing...' : t('newsletter.subscribe')}
+                  {isLoading ? t('newsletter.subscribing') || 'Subscribing...' : t('newsletter.subscribe')}
                 </Button>
               </form>
 
               <p className="text-xs text-muted-foreground mt-4">
-                No spam, only the best travel insights and exclusive offers.
+                {t('newsletter.nospam') || 'No spam, only the best travel insights and exclusive offers.'}
               </p>
             </div>
           </div>

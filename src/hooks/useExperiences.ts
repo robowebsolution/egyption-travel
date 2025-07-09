@@ -24,5 +24,8 @@ export const useExperiences = () => {
       if (error) throw error;
       return data as Experience[];
     },
+    staleTime: 1000 * 60 * 5,
+    refetchOnWindowFocus: false,
+    retry: 1,
   });
 };

@@ -28,10 +28,10 @@ const Header = () => {
   ];
 
   const languages = [
-    { code: 'en' as Language, label: 'English', flag: '🇬🇧' },
-    { code: 'es' as Language, label: 'Español', flag: '🇪🇸' },
-    { code: 'pt' as Language, label: 'Português', flag: '🇵🇹' },
-    { code: 'br' as Language, label: 'Português (BR)', flag: '🇧🇷' },
+    { code: 'en' as Language, label: t('header.english') || 'English', flag: 'EN' },
+    { code: 'es' as Language, label: t('header.spanish') || 'Español', flag: '🇪🇸' },
+    { code: 'pt' as Language, label: t('header.portuguese') || 'Português', flag: '🇵🇹' },
+    { code: 'de' as Language, label: t('header.German') || 'German ', flag: 'GE' },
   ];
 
   const currentLanguage = languages.find(lang => lang.code === language);
@@ -51,7 +51,7 @@ const Header = () => {
               whileHover={{ scale: 1.05 }}
               transition={{ type: "spring", stiffness: 400, damping: 10 }}
             >
-              <span className="text-3xl">𓂀</span> Egyptian Dreams
+              <span className="text-3xl">𓂀</span> {t('header.brand') || 'Egyptian Dreams'}
             </motion.div>
           </Link>
 

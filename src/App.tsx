@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -21,14 +20,13 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Blog from "./pages/Blog";
 import Dashboard from "./pages/Dashboard";
-import OverviewPage from './pages/dashboard/Overview';
-import DestinationsPage from './pages/dashboard/Destinations';
-import PackagesPage from './pages/dashboard/Packages';
-import ExperiencesPage from './pages/dashboard/Experiences';
-import TestimonialsPage from './pages/dashboard/Testimonials';
 import NotFound from "./pages/NotFound";
 import PackageDetails from './pages/PackageDetails';
 import DestinationDetails from './pages/DestinationDetails';
+import DestinationTrips from './pages/DestinationTrips';
+import DestinationTrip from './pages/DestinationTrip';
+import Login from './pages/Login';
+import HeroSectionEditor from './pages/dashboard/HeroSectionEditor';
 
 const queryClient = new QueryClient();
 
@@ -41,6 +39,7 @@ const App = () => (
             <ScrollToTop />
             <Routes>
               <Route path="/dashboard/*" element={<Dashboard />} />
+              <Route path="/login" element={<Login />} />
               <Route path="/*" element={
                 <div className="min-h-screen flex flex-col">
                   <Header />
@@ -50,6 +49,8 @@ const App = () => (
                       <Route path="/" element={<Index />} />
                       <Route path="/destinations" element={<Destinations />} />
                       <Route path="/destinations/:id" element={<DestinationDetails />} />
+<Route path="/destinations-trips/:destinationId" element={<DestinationTrips />} />
+<Route path="/trips/:tripId" element={<DestinationTrip />} />
                       <Route path="/packages" element={<Packages />} />
                       <Route path="/packages/:id" element={<PackageDetails />} />
                       <Route path="/experiences" element={<Experiences />} />
@@ -59,6 +60,7 @@ const App = () => (
                       <Route path="/about" element={<About />} />
                       <Route path="/contact" element={<Contact />} />
                       <Route path="/blog" element={<Blog />} />
+                      <Route path="/dashboard/herosection-editor" element={<HeroSectionEditor />} />
                       <Route path="*" element={<NotFound />} />
                     </Routes>
                   </main>

@@ -1,4 +1,3 @@
-
 import React from 'react';
 import {
   Sidebar,
@@ -20,8 +19,12 @@ import {
   Heart,
   Settings,
   Home,
-  ShoppingBag
+  ShoppingBag,
+  Calendar,
+  LogOut,
+  PieChart
 } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
 
 const menuItems = [
   {
@@ -30,9 +33,19 @@ const menuItems = [
     id: "overview"
   },
   {
+    title: "التحليلات",
+    icon: PieChart,
+    id: "analytics"
+  },
+  {
     title: "الوجهات السياحية",
     icon: MapPin,
     id: "destinations"
+  },
+  {
+    title: "الرحلات السياحية",
+    icon: Calendar,
+    id: "trips"
   },
   {
     title: "الباقات السياحية",
@@ -53,6 +66,11 @@ const menuItems = [
     title: "الطلبات",
     icon: ShoppingBag,
     id: "orders"
+  },
+  {
+    title: "صور الهيرو سيكشن",
+    icon: Star, // يمكنك استبدال الأيقونة بما يناسبك
+    id: "herosection-editor"
   }
 ];
 
@@ -73,6 +91,12 @@ import { useNavigate } from 'react-router-dom';
 
 export function DashboardSidebar() {
   const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    navigate('/login', { replace: true });
+  };
+
   return (
     <Sidebar className="border-r border-gray-200">
       <SidebarHeader className="border-b border-gray-200 p-6">
@@ -127,6 +151,16 @@ export function DashboardSidebar() {
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
+              {/* زر تسجيل الخروج */}
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  onClick={handleLogout}
+                  className="w-full justify-start hover:bg-red-50 text-red-600 font-bold"
+                >
+                  <LogOut className="w-4 h-4" />
+                  <span>تسجيل الخروج</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

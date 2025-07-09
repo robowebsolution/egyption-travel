@@ -5,15 +5,23 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Clock, DollarSign } from 'lucide-react';
 import { useExperiences } from '@/hooks/useExperiences';
+import { useNavigate } from 'react-router-dom';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const CulturalExperiences = () => {
   const { data: experiences, isLoading, error } = useExperiences();
+  const navigate = useNavigate();
+  const { t } = useLanguage();
+
+  const handleExperienceClick = (experienceId: string) => {
+    navigate(`/experiences/${experienceId}`);
+  };
 
   if (isLoading) {
     return (
       <section className="py-20 bg-gradient-to-br from-amber-50 to-orange-50">
         <div className="container mx-auto px-4">
-          <div className="text-center">Loading experiences...</div>
+          <div className="text-center">{t('experience.loading')}</div>
         </div>
       </section>
     );
@@ -23,7 +31,7 @@ const CulturalExperiences = () => {
     return (
       <section className="py-20 bg-gradient-to-br from-amber-50 to-orange-50">
         <div className="container mx-auto px-4">
-          <div className="text-center text-red-600">Failed to load experiences</div>
+          <div className="text-center text-red-600">{t('error.loading')}</div>
         </div>
       </section>
     );
@@ -46,7 +54,7 @@ const CulturalExperiences = () => {
       y: 0,
       transition: {
         duration: 0.5,
-        ease: "easeOut"
+        ease: "easeOut" as const
       }
     }
   };
@@ -64,16 +72,16 @@ const CulturalExperiences = () => {
           <div className="flex items-center justify-center gap-2 mb-6">
             <div className="h-px w-12 bg-pharaoh-400" />
             <span className="text-pharaoh-600 font-medium tracking-wider text-sm uppercase">
-              Cultural Experiences
+              {t('experiences.title')}
             </span>
             <div className="h-px w-12 bg-pharaoh-400" />
           </div>
           
           <h2 className="text-3xl md:text-5xl font-bold mb-6 text-gradient-gold">
-            Authentic Egyptian Culture
+            {t('experiences.subtitle')}
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Immerse yourself in the rich traditions and timeless customs of Egypt
+            {t('experiences.exploreAll')}
           </p>
         </motion.div>
 
@@ -86,7 +94,10 @@ const CulturalExperiences = () => {
         >
           {experiences?.map((experience) => (
             <motion.div key={experience.id} variants={cardVariants}>
-              <Card className="group overflow-hidden hover:shadow-2xl transition-all duration-300 border-0 bg-white/90 backdrop-blur-sm h-full">
+              <Card 
+                className="group overflow-hidden hover:shadow-2xl transition-all duration-300 border-0 bg-white/90 backdrop-blur-sm h-full cursor-pointer"
+                onClick={() => handleExperienceClick(experience.id)}
+              >
                 <div className="relative overflow-hidden">
                   <img
                     src={experience.image}

@@ -4,15 +4,17 @@ import { motion } from 'framer-motion';
 import { Card, CardContent } from '@/components/ui/card';
 import { Star } from 'lucide-react';
 import { useTestimonials } from '@/hooks/useTestimonials';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const CustomerStories = () => {
   const { data: testimonials, isLoading, error } = useTestimonials();
+  const { t } = useLanguage();
 
   if (isLoading) {
     return (
       <section className="py-20 bg-pharaoh-50">
         <div className="container mx-auto px-4">
-          <div className="text-center">Loading testimonials...</div>
+          <div className="text-center">{t('testimonials.loading') || 'Loading testimonials...'}</div>
         </div>
       </section>
     );
@@ -22,7 +24,7 @@ const CustomerStories = () => {
     return (
       <section className="py-20 bg-pharaoh-50">
         <div className="container mx-auto px-4">
-          <div className="text-center text-red-600">Failed to load testimonials</div>
+          <div className="text-center text-red-600">{t('error.loading') || 'Failed to load testimonials'}</div>
         </div>
       </section>
     );
@@ -63,16 +65,16 @@ const CustomerStories = () => {
           <div className="flex items-center justify-center gap-2 mb-6">
             <div className="h-px w-12 bg-pharaoh-400" />
             <span className="text-pharaoh-600 font-medium tracking-wider text-sm uppercase">
-              Testimonials
+              {t('testimonials.title') || 'Testimonials'}
             </span>
             <div className="h-px w-12 bg-pharaoh-400" />
           </div>
           
           <h2 className="text-3xl md:text-5xl font-bold mb-6 text-gradient-gold">
-            Stories from Our Travelers
+            {t('testimonials.heading') || 'Stories from Our Travelers'}
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Real experiences shared by adventurers who discovered Egypt's magic
+            {t('testimonials.subtitle') || "Real experiences shared by adventurers who discovered Egypt's magic"}
           </p>
         </motion.div>
 

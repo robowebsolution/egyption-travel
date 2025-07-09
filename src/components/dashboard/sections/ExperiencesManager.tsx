@@ -45,7 +45,7 @@ export function ExperiencesManager() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 m-[25px]">
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold text-gray-900">إدارة التجارب السياحية</h2>
         <Button className="bg-pharaoh-600 hover:bg-pharaoh-700" onClick={handleAdd}>

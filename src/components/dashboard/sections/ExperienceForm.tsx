@@ -20,7 +20,6 @@ export default function ExperienceForm({ initialData, onSuccess, onCancel }: Exp
     category: initialData?.category || '',
     duration: initialData?.duration || '',
     price: initialData?.price || '',
-    highlights: initialData?.highlights?.join(', ') || '',
   });
   const [loading, setLoading] = useState(false);
 
@@ -32,15 +31,11 @@ export default function ExperienceForm({ initialData, onSuccess, onCancel }: Exp
     e.preventDefault();
     setLoading(true);
     try {
-      const dataToSend = {
-        ...form,
-        highlights: form.highlights.split(',').map((h) => h.trim()),
-      };
       let res;
       if (initialData?.id) {
-        res = await supabase.from('experiences').update(dataToSend).eq('id', initialData.id);
+        res = await supabase.from('experiences').update(form).eq('id', initialData.id);
       } else {
-        res = await supabase.from('experiences').insert([dataToSend]);
+        res = await supabase.from('experiences').insert([form]);
       }
       if (res.error) throw res.error;
       toast({ title: 'نجاح', description: 'تم حفظ التجربة بنجاح', });
@@ -60,7 +55,6 @@ export default function ExperienceForm({ initialData, onSuccess, onCancel }: Exp
       <Input name="category" placeholder="الفئة" value={form.category} onChange={handleChange} />
       <Input name="duration" placeholder="المدة" value={form.duration} onChange={handleChange} />
       <Input name="price" placeholder="السعر" value={form.price} onChange={handleChange} />
-      <Input name="highlights" placeholder="مميزات التجربة (افصل بينها بفاصلة)" value={form.highlights} onChange={handleChange} />
       <div className="flex gap-2 justify-end">
         <Button type="button" variant="secondary" onClick={onCancel} disabled={loading}>إلغاء</Button>
         <Button type="submit" loading={loading}>{initialData?.id ? 'تحديث' : 'إضافة التجربة'}</Button>

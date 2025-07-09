@@ -29,8 +29,7 @@ const PopularPackages = () => {
       opacity: 1,
       x: 0,
       transition: {
-        duration: 0.6,
-        ease: [0.23, 1, 0.32, 1]
+        duration: 0.6
       }
     }
   };
@@ -48,7 +47,7 @@ const PopularPackages = () => {
           <div className="flex items-center justify-center gap-2 mb-6">
             <div className="h-px w-12 bg-pharaoh-400" />
             <span className="text-pharaoh-600 font-medium tracking-wider text-sm uppercase">
-              Travel Packages
+              {t('packages.title')}
             </span>
             <div className="h-px w-12 bg-pharaoh-400" />
           </div>
@@ -69,10 +68,10 @@ const PopularPackages = () => {
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12"
         >
           {isLoading && (
-            <div className="col-span-4 flex justify-center items-center h-40 text-xl font-semibold">Loading packages...</div>
+            <div className="col-span-4 flex justify-center items-center h-40 text-xl font-semibold">{t('packages.loading') || 'Loading packages...'}</div>
           )}
           {error && (
-            <div className="col-span-4 flex justify-center items-center h-40 text-red-600 font-semibold">Error loading packages</div>
+            <div className="col-span-4 flex justify-center items-center h-40 text-red-600 font-semibold">{t('error.loading') || 'Error loading packages'}</div>
           )}
           {!isLoading && !error && packages.map((pkg) => (
             <motion.div key={pkg.id} variants={cardVariants} >
@@ -123,7 +122,7 @@ const PopularPackages = () => {
                     
                     <Button asChild size="sm" className="w-full group">
                       <Link to={`/packages/${pkg.id}`} className="flex items-center gap-2">
-                        Book Now
+                        {t('package.bookNow')}
                         <motion.div
                           whileHover={{ x: 5 }}
                           transition={{ type: "spring", stiffness: 400, damping: 10 }}

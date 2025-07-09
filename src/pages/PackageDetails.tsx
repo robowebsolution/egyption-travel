@@ -6,6 +6,9 @@ import { Button } from '@/components/ui/button';
 import { ArrowLeft, Calendar, Users, Mail, User, Phone } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useSubmitUserData } from '@/hooks/useSubmitUserData';
+import validator from 'validator';
+import { parsePhoneNumberFromString } from 'libphonenumber-js';
+import { countryCodes } from '@/lib/country-codes';
 
 const PackageDetails = () => {
   const { id } = useParams();
@@ -22,6 +25,8 @@ const PackageDetails = () => {
     people: 1,
   });
   const [success, setSuccess] = useState(false);
+  const [errors, setErrors] = useState<{ email?: string; phone?: string }>({});
+  const [selectedCountry, setSelectedCountry] = useState(countryCodes[0]);
 
   const pkg = packages.find((p) => String(p.id) === String(id));
 
@@ -43,10 +48,27 @@ const PackageDetails = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setForm({ ...form, phone: e.target.value });
+  };
+  const handleCountryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const country = countryCodes.find(c => c.code === e.target.value);
+    if (country) setSelectedCountry(country);
+  };
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
     if (!pkg) return;
+    // Validation
+    const newErrors: { email?: string; phone?: string } = {};
+    if (!validator.isEmail(form.email)) {
+      newErrors.email = 'البريد الإلكتروني غير صحيح';
+    }
+    const phoneNumber = parsePhoneNumberFromString(selectedCountry.code + form.phone, selectedCountry.iso);
+    if (!phoneNumber || !phoneNumber.isValid()) {
+      newErrors.phone = 'رقم الهاتف غير صحيح أو كود الدولة غير صحيح';
+    }
+    setErrors(newErrors);
+    if (Object.keys(newErrors).length > 0) return;
     
     // استخراج السعر من النص (مثال: "500 ج.م" -> 500)
     const priceText = pkg.price;
@@ -148,16 +170,25 @@ const PackageDetails = () => {
                 <div>
                   <label className="block text-sm mb-1 font-medium text-pharaoh-700">{t('package.email')}</label>
                   <div className="relative">
-                    <input type="email" name="email" required value={form.email} onChange={handleChange} className="w-full pl-10 py-2 border-2 border-gray-300 rounded-lg bg-white placeholder-gray-500 text-gray-900 focus:border-pharaoh-500 focus:ring-2 focus:ring-pharaoh-100 shadow-sm transition-all duration-150" placeholder={t('package.emailPlaceholder')} />
+                    <input type="email" name="email" required value={form.email} onChange={handleChange} className={`w-full pl-10 py-2 border-2 border-gray-300 rounded-lg bg-white placeholder-gray-500 text-gray-900 focus:border-pharaoh-500 focus:ring-2 focus:ring-pharaoh-100 shadow-sm transition-all duration-150 ${errors.email ? 'border-red-500' : ''}`} placeholder={t('package.emailPlaceholder')} />
                     <Mail className="absolute left-3 top-2.5 w-4 h-4 text-pharaoh-400" />
                   </div>
+                  {errors.email && <div className="text-red-500 text-xs mt-1">{errors.email}</div>}
                 </div>
                 <div>
                   <label className="block text-sm mb-1 font-medium text-pharaoh-700">{t('package.phone')}</label>
-                  <div className="relative">
-                    <input type="tel" name="phone" required value={form.phone} onChange={handleChange} className="w-full pl-10 py-2 border-2 border-gray-300 rounded-lg bg-white placeholder-gray-500 text-gray-900 focus:border-pharaoh-500 focus:ring-2 focus:ring-pharaoh-100 shadow-sm transition-all duration-150" placeholder={t('package.phonePlaceholder')} />
-                    <Phone className="absolute left-3 top-2.5 w-4 h-4 text-pharaoh-400" />
+                  <div className="flex gap-2 items-center">
+                    <select value={selectedCountry.code} onChange={handleCountryChange} className="px-1 py-2 border-2 border-gray-300 rounded-lg bg-white text-gray-900 focus:border-pharaoh-500 focus:ring-2 focus:ring-pharaoh-100 w-20 text-xs">
+                      {countryCodes.map((c) => (
+                        <option key={c.code} value={c.code}>{c.flag} {c.code}</option>
+                      ))}
+                    </select>
+                    <div className="relative flex-1">
+                      <input type="tel" name="phone" required value={form.phone} onChange={handlePhoneChange} className={`w-full pl-10 py-2 border-2 border-gray-300 rounded-lg bg-white placeholder-gray-500 text-gray-900 focus:border-pharaoh-500 focus:ring-2 focus:ring-pharaoh-100 shadow-sm transition-all duration-150 ${errors.phone ? 'border-red-500' : ''}`} placeholder={t('package.phonePlaceholder') + ' (مثال: 1234567890)'} />
+                      <Phone className="absolute left-3 top-2.5 w-4 h-4 text-pharaoh-400" />
+                    </div>
                   </div>
+                  {errors.phone && <div className="text-red-500 text-xs mt-1">{errors.phone}</div>}
                 </div>
                 <div>
                   <label className="block text-sm mb-1 font-medium text-pharaoh-700">{t('package.date')}</label>

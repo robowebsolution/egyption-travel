@@ -7,6 +7,7 @@ import { usePackages } from '@/hooks/usePackages';
 import { Badge } from '@/components/ui/badge';
 import PackageForm from './PackageForm';
 import { useToast } from '@/hooks/use-toast';
+import { formatUSD } from '@/lib/currency';
 
 export function PackagesManager() {
   const { data: packages = [], isLoading, refetch } = usePackages();
@@ -80,9 +81,13 @@ export function PackagesManager() {
           <Card key={pkg.id} className="hover:shadow-lg transition-shadow">
             <div className="relative">
               <img
-                src={pkg.image}
+                src={pkg.image || 'https://placehold.co/600x400?text=No+Image'}
                 alt={pkg.title}
-                className="w-full h-48 object-cover rounded-t-lg"
+                className="w-full h-48 object-cover rounded-t-lg bg-gray-100"
+                loading="lazy"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = 'https://placehold.co/600x400?text=No+Image';
+                }}
               />
               <div className="absolute top-2 right-2 flex gap-2">
                 <Button size="sm" variant="secondary" className="bg-white/90 hover:bg-white" onClick={() => handleEdit(pkg)}>
@@ -94,7 +99,7 @@ export function PackagesManager() {
               </div>
               <div className="absolute bottom-2 left-2">
                 <Badge className="bg-green-600 text-white font-bold">
-                  {pkg.price}
+                  {formatUSD(pkg.price)}
                 </Badge>
               </div>
             </div>

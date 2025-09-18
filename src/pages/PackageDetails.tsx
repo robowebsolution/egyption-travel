@@ -7,8 +7,9 @@ import { ArrowLeft, Calendar, Users, Mail, User, Phone } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useSubmitUserData } from '@/hooks/useSubmitUserData';
 import validator from 'validator';
-import { parsePhoneNumberFromString } from 'libphonenumber-js';
+import { parsePhoneNumberFromString, CountryCode } from 'libphonenumber-js';
 import { countryCodes } from '@/lib/country-codes';
+import { formatUSD } from '@/lib/currency';
 
 const PackageDetails = () => {
   const { id } = useParams();
@@ -63,7 +64,7 @@ const PackageDetails = () => {
     if (!validator.isEmail(form.email)) {
       newErrors.email = 'البريد الإلكتروني غير صحيح';
     }
-    const phoneNumber = parsePhoneNumberFromString(selectedCountry.code + form.phone, selectedCountry.iso);
+    const phoneNumber = parsePhoneNumberFromString(selectedCountry.code + form.phone, selectedCountry.iso as CountryCode);
     if (!phoneNumber || !phoneNumber.isValid()) {
       newErrors.phone = 'رقم الهاتف غير صحيح أو كود الدولة غير صحيح';
     }
@@ -115,9 +116,9 @@ const PackageDetails = () => {
               <h1 className="text-3xl font-bold mb-2 text-pharaoh-700">{pkg.title}</h1>
               <div className="flex flex-wrap gap-2 mb-4">
                 <Badge className="bg-pharaoh-50 text-pharaoh-700"><Calendar className="inline w-4 h-4 ml-1" /> {pkg.duration}</Badge>
-                <Badge className="bg-pharaoh-50 text-pharaoh-700"><Users className="inline w-4 h-4 ml-1" /> {pkg.groupSize}</Badge>
+                <Badge className="bg-pharaoh-50 text-pharaoh-700"><Users className="inline w-4 h-4 ml-1" /> {pkg.group_size}</Badge>
                 <Badge className="bg-pharaoh-50 text-pharaoh-700">⭐ {pkg.rating}</Badge>
-                <Badge className="bg-pharaoh-100 text-pharaoh-800 font-bold text-lg px-4 py-2">{pkg.price} <span className="text-base">$</span></Badge>
+                <Badge className="bg-pharaoh-100 text-pharaoh-800 font-bold text-lg px-4 py-2">{t('price.startFrom')} {formatUSD(pkg.price)}</Badge>
               </div>
               <p className="text-base text-gray-600 mb-6 leading-relaxed">{pkg.description}</p>
               <h2 className="text-xl font-semibold mb-2 text-pharaoh-600">{t('package.highlights')}</h2>
@@ -136,7 +137,7 @@ const PackageDetails = () => {
           <div className="bg-white rounded-xl shadow-xl p-8 flex flex-col justify-center">
             <h2 className="text-2xl font-bold mb-6 text-pharaoh-700 text-center">{t('package.bookNow')}</h2>
             <div className="mb-4 text-center">
-              <span className="inline-block bg-pharaoh-100 text-pharaoh-800 font-bold text-xl rounded-lg px-6 py-2 shadow">{pkg.price} <span className="text-base">$</span></span>
+              <span className="inline-block bg-pharaoh-100 text-pharaoh-800 font-bold text-xl rounded-lg px-6 py-2 shadow">{t('price.startFrom')} {formatUSD(pkg.price)}</span>
             </div>
             {success ? (
               <div className="text-green-600 text-center font-semibold">

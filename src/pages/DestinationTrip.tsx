@@ -6,6 +6,9 @@ import { ArrowLeft, Calendar, Users, Mail, User, Phone, Star } from 'lucide-reac
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useSubmitUserData } from '@/hooks/useSubmitUserData';
 import { useTrip } from '@/hooks/useTrip';
+import { formatUSD } from '@/lib/currency';
+import { usePricingTiers } from '@/hooks/usePricingTiers';
+import PriceTable from '@/components/pricing/PriceTable';
 
 // English static data for Egypt Travel
 const DEFAULT_INCLUSIONS = [
@@ -44,6 +47,7 @@ const DestinationTrip = () => {
   const [success, setSuccess] = useState(false);
 
   const { data: trip, isLoading } = useTrip(tripId);
+  const { data: tiers = [] } = usePricingTiers({ tripId });
 
   if (isLoading) {
     return <div className="flex items-center justify-center h-64 text-xl font-semibold">جاري تحميل الرحلة...</div>;
@@ -95,7 +99,7 @@ const DestinationTrip = () => {
               <h1 className="text-3xl font-bold mb-2 text-pharaoh-700">{trip.name}</h1>
               <div className="flex flex-wrap gap-2 mb-4">
                 <Badge className="bg-pharaoh-50 text-pharaoh-700"><Calendar className="inline w-4 h-4 ml-1" /> {trip.start_date} - {trip.end_date}</Badge>
-                <Badge className="bg-pharaoh-100 text-pharaoh-800 font-bold text-lg px-4 py-2">{trip.price} <span className="text-base">$</span></Badge>
+                <Badge className="bg-pharaoh-100 text-pharaoh-800 font-bold text-lg px-4 py-2">{t('price.startFrom')} {formatUSD(trip.price)}</Badge>
               </div>
               <p className="text-base text-gray-600 mb-6 leading-relaxed">{trip.description}</p>
 
@@ -135,6 +139,11 @@ const DestinationTrip = () => {
                 </ul>
               </div>
 
+              {/* Price Table */}
+              {tiers && tiers.length > 0 && (
+                <PriceTable tiers={tiers} />
+              )}
+
               {/* Cancellation Policy */}
               <div className="bg-gray-50 rounded-lg p-4 mt-auto">
                 <h3 className="font-semibold text-pharaoh-700 mb-2">Cancellation Policy</h3>
@@ -146,7 +155,7 @@ const DestinationTrip = () => {
           <div className="bg-white rounded-xl shadow-xl p-8 flex flex-col justify-center sticky top-8 h-fit max-h-[680px] min-w-[320px] md:min-w-[340px] md:max-w-[360px] overflow-y-auto self-start">
             <h2 className="text-2xl font-bold mb-4 text-pharaoh-700 text-center">Book This Trip</h2>
             <div className="mb-4 text-center">
-              <span className="inline-block bg-pharaoh-100 text-pharaoh-800 font-bold text-xl rounded-lg px-6 py-2 shadow">{trip.price} <span className="text-base">$</span></span>
+              <span className="inline-block bg-pharaoh-100 text-pharaoh-800 font-bold text-xl rounded-lg px-6 py-2 shadow">{t('price.startFrom')} {formatUSD(trip.price)}</span>
             </div>
             {success ? (
               <div className="text-green-600 text-center font-semibold">

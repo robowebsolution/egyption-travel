@@ -7,6 +7,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Clock, Users, Star, ArrowRight } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { usePackages } from '@/hooks/usePackages';
+import { formatUSD } from '@/lib/currency';
 
 const PopularPackages = () => {
   const { t } = useLanguage();
@@ -85,7 +86,7 @@ const PopularPackages = () => {
                       className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500"
                     />
                     <div className="absolute top-4 right-4 bg-pharaoh-500 text-white px-3 py-1 rounded-full text-sm font-medium">
-                      {pkg.price}
+                      {t('price.startFrom')} {formatUSD(pkg.price)}
                     </div>
                   </div>
                   <CardContent className="p-6 flex flex-col flex-1">

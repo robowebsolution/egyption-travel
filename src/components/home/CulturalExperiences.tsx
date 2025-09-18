@@ -7,6 +7,7 @@ import { Clock, DollarSign } from 'lucide-react';
 import { useExperiences } from '@/hooks/useExperiences';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { formatUSD } from '@/lib/currency';
 
 const CulturalExperiences = () => {
   const { data: experiences, isLoading, error } = useExperiences();
@@ -127,7 +128,7 @@ const CulturalExperiences = () => {
                     {experience.price && (
                       <div className="flex items-center gap-1 text-green-600 font-semibold">
                         <DollarSign className="w-4 h-4" />
-                        <span>{experience.price}</span>
+                        <span>{t('price.startFrom')} {formatUSD(experience.price)}</span>
                       </div>
                     )}
                   </div>

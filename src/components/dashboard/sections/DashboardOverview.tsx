@@ -126,7 +126,7 @@ export function DashboardOverview() {
           <CardContent>
             <div className="space-y-4">
               
-              < div className="flex items-center justify-between py-2 border-b">
+              <div className="flex items-center justify-between py-2 border-b">
                 <span className="text-sm text-gray-600">آخر رأي عميل</span>
                 <span className="text-sm font-medium">2 hours ago</span>
               </div>
@@ -152,36 +152,36 @@ export function DashboardOverview() {
           <CardContent>
             <div className="space-y-3">
               <button
-  className="w-full text-left p-3 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors"
-  onClick={() => navigate('/dashboard/destinations')}
->
-  <div className="font-medium text-gray-900">إضافة وجهة جديدة</div>
-</button>
-<button
-  className="w-full text-left p-3 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors"
-  onClick={() => navigate('/dashboard/trips')}
->
-  <div className="font-medium text-gray-900"> اضافة رحلة سياحية جديدة </div>
-</button>
-  <button
-  className="w-full text-left p-3 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors"
-  onClick={() => navigate('/dashboard/packages')}
->
-  <div className="font-medium text-gray-900">إضافة باقة سياحية جديدة</div>
-</button>
-<button
-  className="w-full text-left p-3 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors"
-  onClick={() => navigate('/dashboard/experiences')}
->
-  <div className="font-medium text-gray-900">إضافة تجربة جديدة</div>
-</button>
+                className="w-full text-left p-3 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors"
+                onClick={() => navigate('/dashboard/destinations')}
+              >
+                <div className="font-medium text-gray-900">إضافة وجهة جديدة</div>
+              </button>
               <button
-  className="w-full text-left p-3 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors"
-  onClick={() => navigate('/dashboard/analytics')}
->
-  <div className="font-medium text-gray-900">عرض الإحصائيات</div>
-  <div className="text-sm text-gray-500">عرض أداء الموقع</div>
-</button>
+                className="w-full text-left p-3 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors"
+                onClick={() => navigate('/dashboard/trips')}
+              >
+                <div className="font-medium text-gray-900">إضافة رحلة سياحية جديدة</div>
+              </button>
+              <button
+                className="w-full text-left p-3 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors"
+                onClick={() => navigate('/dashboard/packages')}
+              >
+                <div className="font-medium text-gray-900">إضافة باقة سياحية جديدة</div>
+              </button>
+              <button
+                className="w-full text-left p-3 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors"
+                onClick={() => navigate('/dashboard/experiences')}
+              >
+                <div className="font-medium text-gray-900">إضافة تجربة جديدة</div>
+              </button>
+              <button
+                className="w-full text-left p-3 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors"
+                onClick={() => navigate('/dashboard/analytics')}
+              >
+                <div className="font-medium text-gray-900">عرض الإحصائيات</div>
+                <div className="text-sm text-gray-500">عرض أداء الموقع</div>
+              </button>
             </div>
           </CardContent>
         </Card>

@@ -10,6 +10,7 @@ export interface Experience {
   category: string;
   duration?: string;
   price: string;
+  highlights?: string[];
 }
 
 export const useExperiences = () => {

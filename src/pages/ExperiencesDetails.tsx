@@ -6,6 +6,9 @@ import { Button } from '@/components/ui/button';
 import { ArrowLeft, Users, Calendar, Star, Mail, User, Phone } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useSubmitUserData } from '@/hooks/useSubmitUserData';
+import { formatUSD } from '@/lib/currency';
+import { usePricingTiers } from '@/hooks/usePricingTiers';
+import PriceTable from '@/components/pricing/PriceTable';
 
 const ExperiencesDetails = () => {
   const { id } = useParams();
@@ -24,6 +27,7 @@ const ExperiencesDetails = () => {
   const [success, setSuccess] = useState(false);
 
   const exp = experiences.find((e) => String(e.id) === String(id));
+  const { data: tiers = [] } = usePricingTiers({ experienceId: exp?.id });
 
   if (isLoading) {
     return (
@@ -93,7 +97,7 @@ const ExperiencesDetails = () => {
               <h1 className="text-3xl font-bold mb-2 text-pharaoh-700">{exp.title}</h1>
               <div className="flex flex-wrap gap-2 mb-4">
                 <Badge className="bg-pharaoh-50 text-pharaoh-700"><Calendar className="inline w-4 h-4 ml-1" /> {exp.duration}</Badge>
-                <Badge className="bg-pharaoh-100 text-pharaoh-800 font-bold text-lg px-4 py-2">{exp.price} <span className="text-base">$</span></Badge>
+                <Badge className="bg-pharaoh-100 text-pharaoh-800 font-bold text-lg px-4 py-2">{t('price.startFrom')} {formatUSD(exp.price)}</Badge>
               </div>
               <p className="text-base text-gray-600 mb-6 leading-relaxed">{exp.description}</p>
               <h2 className="text-xl font-semibold mb-2 text-pharaoh-600">{t('experience.highlights')}</h2>
@@ -102,6 +106,11 @@ const ExperiencesDetails = () => {
                   <li key={idx}>{h}</li>
                 ))}
               </ul>
+              {/* Price Table */}
+              {tiers && tiers.length > 0 && (
+                <PriceTable tiers={tiers} />
+              )}
+
               <div className="bg-gray-50 rounded-lg p-4 mt-auto">
                 <h3 className="font-semibold text-pharaoh-700 mb-2">{t('package.cancellationPolicyTitle')}</h3>
                 <p className="text-sm text-gray-500">{t('package.cancellationPolicy')}</p>
@@ -111,7 +120,7 @@ const ExperiencesDetails = () => {
           {/* نموذج الحجز */}
           <div className="bg-white rounded-xl shadow-xl p-8 flex flex-col justify-center">
             <div className="mb-4 text-center">
-              <span className="inline-block bg-pharaoh-100 text-pharaoh-800 font-bold text-xl rounded-lg px-6 py-2 shadow">{exp.price} <span className="text-base">$</span></span>
+              <span className="inline-block bg-pharaoh-100 text-pharaoh-800 font-bold text-xl rounded-lg px-6 py-2 shadow">{t('price.startFrom')} {formatUSD(exp.price)}</span>
             </div>
             {success ? (
               <div className="text-center text-green-600 font-semibold text-lg py-10">

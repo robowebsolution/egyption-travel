@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useExperiences } from '@/hooks/useExperiences';
 import { Card, CardContent } from '@/components/ui/card';
+import { formatUSD } from '@/lib/currency';
 
 const Experiences = () => {
   const { data: experiences = [], isLoading, error } = useExperiences();
@@ -29,7 +30,7 @@ const Experiences = () => {
                 <img src={exp.image} alt={exp.title} className="w-full h-48 object-cover transition-transform duration-200 group-hover:scale-105" />
                 <CardContent className="p-6 flex flex-col flex-1">
                   <h3 className="text-xl font-bold mb-2 text-gradient-gold group-hover:text-pharaoh-700">{exp.title}</h3>
-<span className=" w-[70px] bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full text-sm font-semibold mb-2">{exp.price} $</span>
+                  <span className="inline-block bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full text-sm font-semibold mb-2">{t('price.startFrom')} {formatUSD(exp.price)}</span>
                   <p className="text-muted-foreground mb-4 flex-1">{exp.description}</p>
                   <div className="flex gap-2 flex-wrap mb-4">
                     {exp.highlights?.map((h, i) => (

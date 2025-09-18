@@ -5,9 +5,12 @@ import { motion } from 'framer-motion';
 import { usePackages } from '@/hooks/usePackages';
 import { Card, CardContent } from '@/components/ui/card';
 import { Clock, Users, Star } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
+import { formatUSD } from '@/lib/currency';
 
 const Packages = () => {
   const { data: packages = [], isLoading, error } = usePackages();
+  const { t } = useLanguage();
 
   return (
     <div className="min-h-screen bg-gradient-egyptian py-20">
@@ -47,7 +50,7 @@ const Packages = () => {
                     <span key={i} className="bg-pharaoh-100 text-pharaoh-700 px-2 py-1 rounded text-xs">{h}</span>
                   ))}
                 </div>
-                <div className="text-pharaoh-600 font-bold text-lg mt-auto">{pkg.price}</div>
+                <div className="text-pharaoh-600 font-bold text-lg mt-auto">{t('price.startFrom')} {formatUSD(pkg.price)}</div>
               </CardContent>
             </Card>
           ))}

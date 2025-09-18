@@ -3,6 +3,8 @@ import { Card } from '@/components/ui/card';
 import { ChartContainer } from '@/components/ui/chart';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
+import { formatUSD } from '@/lib/currency';
+
 import {
   BarChart, Bar, XAxis, YAxis, Tooltip, Legend, CartesianGrid, LineChart, Line, ResponsiveContainer
 } from 'recharts';
@@ -75,7 +77,7 @@ const AnalyticsPage = () => {
           <span className="text-gray-500 mt-2">إجمالي الطلبات</span>
         </Card>
         <Card className="p-4 flex flex-col items-center">
-          <span className="text-3xl font-bold text-pharaoh-700">{loadingAnalytics ? '...' : analytics?.totalRevenue?.toLocaleString() ?? 0} $</span>
+          <span className="text-3xl font-bold text-pharaoh-700">{loadingAnalytics ? '...' : (analytics ? formatUSD(analytics.totalRevenue) : '$0')}</span>
           <span className="text-gray-500 mt-2">إجمالي الإيرادات (الموافق عليها)</span>
         </Card>
         {analytics?.typeStats?.map((t: any) => (

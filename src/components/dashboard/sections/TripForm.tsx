@@ -45,9 +45,9 @@ export default function TripForm({ initialData, onSuccess, onCancel }: TripFormP
       };
       let res;
       if (initialData?.id) {
-        res = await supabase.from('trips').update(dataToSend).eq('id', initialData.id);
+        res = await (supabase as any).from('trips').update(dataToSend).eq('id', initialData.id);
       } else {
-        res = await supabase.from('trips').insert([dataToSend]);
+        res = await (supabase as any).from('trips').insert([dataToSend]);
       }
       if (res.error) throw res.error;
       toast({ title: 'نجاح', description: 'تم حفظ الرحلة بنجاح', });
@@ -82,11 +82,22 @@ export default function TripForm({ initialData, onSuccess, onCancel }: TripFormP
       <Input name="price" type="number" placeholder="السعر" value={form.price} onChange={handleChange} required />
       <Input name="start_date" type="date" placeholder="تاريخ البداية" value={form.start_date} onChange={handleChange} required />
       <Input name="end_date" type="date" placeholder="تاريخ النهاية" value={form.end_date} onChange={handleChange} required />
-      <Input name="image_url" placeholder="رابط الصورة" value={form.image_url} onChange={handleChange} required />
+      <Input name="image_url" placeholder="رابط الصورة (يفضل 1200x800)" value={form.image_url} onChange={handleChange} required />
+      {form.image_url && (
+        <img
+          src={form.image_url || 'https://placehold.co/600x400?text=No+Image'}
+          alt="معاينة الصورة"
+          className="w-full h-40 object-cover rounded-md bg-gray-100"
+          loading="lazy"
+          onError={(e) => {
+            (e.target as HTMLImageElement).src = 'https://placehold.co/600x400?text=No+Image';
+          }}
+        />
+      )}
       <Textarea name="description" placeholder="وصف الرحلة" value={form.description} onChange={handleChange} required />
       <div className="flex gap-2 justify-end">
         <Button type="button" variant="secondary" onClick={onCancel} disabled={loading}>إلغاء</Button>
-        <Button type="submit" loading={loading}>{initialData?.id ? 'تحديث' : 'إضافة الرحلة'}</Button>
+        <Button type="submit" disabled={loading}>{loading ? 'جاري الحفظ...' : (initialData?.id ? 'تحديث' : 'إضافة الرحلة')}</Button>
       </div>
     </form>
   );

@@ -7,6 +7,8 @@ import { useExperiences } from '@/hooks/useExperiences';
 import { Badge } from '@/components/ui/badge';
 import ExperienceForm from './ExperienceForm';
 import { useToast } from '@/hooks/use-toast';
+import { formatUSD } from '@/lib/currency';
+import PricingTiersEditor from './PricingTiersEditor';
 
 export function ExperiencesManager() {
   const { data: experiences = [], isLoading, refetch } = useExperiences();
@@ -14,6 +16,8 @@ export function ExperiencesManager() {
   const [showForm, setShowForm] = React.useState(false);
   const [editData, setEditData] = React.useState<any>(null);
   const [deleting, setDeleting] = React.useState(false);
+  const [showPricing, setShowPricing] = React.useState(false);
+  const [pricingExpId, setPricingExpId] = React.useState<string | null>(null);
 
   const handleAdd = () => {
     setEditData(null);
@@ -79,13 +83,20 @@ export function ExperiencesManager() {
           <Card key={experience.id} className="hover:shadow-lg transition-shadow">
             <div className="relative">
               <img
-                src={experience.image}
+                src={experience.image || 'https://placehold.co/600x400?text=No+Image'}
                 alt={experience.title}
-                className="w-full h-48 object-cover rounded-t-lg"
+                className="w-full h-48 object-cover rounded-t-lg bg-gray-100"
+                loading="lazy"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = 'https://placehold.co/600x400?text=No+Image';
+                }}
               />
               <div className="absolute top-2 right-2 flex gap-2">
                 <Button size="sm" variant="secondary" className="bg-white/90 hover:bg-white" onClick={() => handleEdit(experience)}>
                   <Edit className="w-3 h-3" />
+                </Button>
+                <Button size="sm" variant="secondary" className="bg-white/90 hover:bg-white" onClick={() => { setPricingExpId(experience.id); setShowPricing(true); }} title="الأسعار">
+                  <DollarSign className="w-3 h-3" />
                 </Button>
                 <Button size="sm" variant="destructive" className="bg-red-500/90 hover:bg-red-600" onClick={() => handleDelete(experience.id)} disabled={deleting}>
                   <Trash2 className="w-3 h-3" />
@@ -110,7 +121,7 @@ export function ExperiencesManager() {
                 {experience.price && (
                   <div className="flex items-center gap-1 text-green-600 font-medium">
                     <DollarSign className="w-3 h-3" />
-                    <span>{experience.price}</span>
+                    <span>{formatUSD(experience.price)}</span>
                   </div>
                 )}
               </div>
@@ -131,6 +142,14 @@ export function ExperiencesManager() {
             </Button>
           </CardContent>
         </Card>
+      )}
+
+      {showPricing && pricingExpId && (
+        <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center">
+          <div className="bg-white rounded-lg shadow-lg p-4 w-full max-w-3xl relative">
+            <PricingTiersEditor experienceId={pricingExpId} onClose={() => { setShowPricing(false); setPricingExpId(null); }} />
+          </div>
+        </div>
       )}
     </div>
   );

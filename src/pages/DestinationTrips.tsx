@@ -5,10 +5,13 @@ import { Card, CardHeader, CardContent } from '@/components/ui/card';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
+import { useLanguage } from '@/contexts/LanguageContext';
+import { formatUSD } from '@/lib/currency';
 
 const DestinationTrips = () => {
   const { destinationId } = useParams<{ destinationId: string }>();
   const { data: trips = [], isLoading, isError, error } = useTrips(destinationId);
+  const { t } = useLanguage();
 
   if (isLoading) return (
   <div className="flex flex-col items-center justify-center min-h-[300px]">
@@ -58,7 +61,7 @@ return (
                   <p className="text-muted-foreground line-clamp-2 mb-2">{trip.description}</p>
                   <div className="flex items-center justify-between text-sm mb-1">
                     <span className="font-bold">السعر:</span>
-                    <span className="text-green-600 font-semibold">{trip.price} $</span>
+                    <span className="text-green-600 font-semibold">{t('price.startFrom')} {formatUSD(trip.price)}</span>
                   </div>
                   <div className="flex items-center justify-between text-sm mb-3">
                     <span className="font-bold">التواريخ:</span>

@@ -79,9 +79,13 @@ export function DestinationsManager() {
           <Card key={destination.id} className="hover:shadow-lg transition-shadow">
             <div className="relative">
               <img
-                src={destination.image}
+                src={destination.image || 'https://placehold.co/600x400?text=No+Image'}
                 alt={destination.name}
-                className="w-full h-48 object-cover rounded-t-lg"
+                className="w-full h-48 object-cover rounded-t-lg bg-gray-100"
+                loading="lazy"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = 'https://placehold.co/600x400?text=No+Image';
+                }}
               />
               <div className="absolute top-2 right-2 flex gap-2">
                 <Button size="sm" variant="secondary" className="bg-white/90 hover:bg-white" onClick={() => handleEdit(destination)}>

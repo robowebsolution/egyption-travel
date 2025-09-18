@@ -207,6 +207,52 @@ export type Database = {
         }
         Relationships: []
       }
+      pricing_tiers: {
+        Row: {
+          id: string
+          trip_id: number | null
+          experience_id: string | null
+          people_count: number
+          price: number
+          currency: string
+          sort_order: number
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          trip_id?: number | null
+          experience_id?: string | null
+          people_count: number
+          price: number
+          currency?: string
+          sort_order?: number
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          trip_id?: number | null
+          experience_id?: string | null
+          people_count?: number
+          price?: number
+          currency?: string
+          sort_order?: number
+          created_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pricing_tiers_trip_id_fkey"
+            columns: ["trip_id"]
+            referencedRelation: "trips"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "pricing_tiers_experience_id_fkey"
+            columns: ["experience_id"]
+            referencedRelation: "experiences"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
     }
     Views: {
       [_ in never]: never

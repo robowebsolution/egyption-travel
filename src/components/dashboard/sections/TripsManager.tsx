@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Plus, Edit, Trash2, Calendar, MapPin } from 'lucide-react';
+import { Plus, Edit, Trash2, Calendar, MapPin, DollarSign } from 'lucide-react';
 import { useTrips } from '@/hooks/useTrips';
 import { Badge } from '@/components/ui/badge';
 import TripForm from './TripForm';
 import { useToast } from '@/hooks/use-toast';
+import PricingTiersEditor from './PricingTiersEditor';
+import { formatUSD } from '@/lib/currency';
 
 export function TripsManager() {
   const { data: trips = [], isLoading, refetch } = useTrips();
@@ -13,6 +15,8 @@ export function TripsManager() {
   const [showForm, setShowForm] = React.useState(false);
   const [editData, setEditData] = React.useState<any>(null);
   const [deleting, setDeleting] = React.useState(false);
+  const [showPricing, setShowPricing] = React.useState(false);
+  const [pricingTripId, setPricingTripId] = React.useState<string | null>(null);
 
   const handleAdd = () => {
     setEditData(null);
@@ -78,13 +82,20 @@ export function TripsManager() {
           <Card key={trip.id} className="hover:shadow-lg transition-shadow">
             <div className="relative">
               <img
-                src={trip.image_url}
+                src={trip.image_url || 'https://placehold.co/600x400?text=No+Image'}
                 alt={trip.name}
-                className="w-full h-48 object-cover rounded-t-lg"
+                className="w-full h-48 object-cover rounded-t-lg bg-gray-100"
+                loading="lazy"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = 'https://placehold.co/600x400?text=No+Image';
+                }}
               />
               <div className="absolute top-2 right-2 flex gap-2">
                 <Button size="sm" variant="secondary" className="bg-white/90 hover:bg-white" onClick={() => handleEdit(trip)}>
                   <Edit className="w-3 h-3" />
+                </Button>
+                <Button size="sm" variant="secondary" className="bg-white/90 hover:bg-white" onClick={() => { setPricingTripId(Number(trip.id)); setShowPricing(true); }} title="الأسعار">
+                  <DollarSign className="w-3 h-3" />
                 </Button>
                 <Button size="sm" variant="destructive" className="bg-red-500/90 hover:bg-red-600" onClick={() => handleDelete(trip.id)} disabled={deleting}>
                   <Trash2 className="w-3 h-3" />
@@ -104,7 +115,7 @@ export function TripsManager() {
                 <div className="flex justify-between items-center">
                   <span className="text-xs font-medium text-gray-500">السعر:</span>
                   <Badge variant="secondary" className="text-xs">
-                    {trip.price.toLocaleString('ar-EG')} جنيه مصري
+                    {formatUSD(trip.price)}
                   </Badge>
                 </div>
                 <div>
@@ -132,6 +143,14 @@ export function TripsManager() {
           </CardContent>
         </Card>
       )}
+
+      {showPricing && pricingTripId && (
+        <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center">
+          <div className="bg-white rounded-lg shadow-lg p-4 w-full max-w-3xl relative">
+            <PricingTiersEditor tripId={pricingTripId} onClose={() => { setShowPricing(false); setPricingTripId(null); }} />
+          </div>
+        </div>
+      )}
     </div>
   );
-} 
+}

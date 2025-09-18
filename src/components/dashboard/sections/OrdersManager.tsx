@@ -35,6 +35,7 @@ import {
   TableRow 
 } from '@/components/ui/table';
 import { toast } from 'sonner';
+import { formatUSD } from '@/lib/currency';
 
 // نموذج بيانات الطلب
 interface Order {
@@ -292,11 +293,12 @@ export function OrdersManager() {
                         <TableCell>
                           {order.source_page === 'package' && 'باقة سياحية'}
                           {order.source_page === 'experience' && 'تجربة سياحية'}
-                          {order.source_page !== 'package' && order.source_page !== 'experience' && order.source_page}
+                          {order.source_page === 'trip' && 'رحلة سياحية'}
+                          {order.source_page !== 'package' && order.source_page !== 'experience' && order.source_page !== 'trip' && order.source_page}
                         </TableCell>
                         <TableCell>{order.source_name || '-'}</TableCell>
                         <TableCell>{new Date(order.date).toLocaleDateString('ar-EG')}</TableCell>
-                        <TableCell>{order.price ? `${order.price} $` : '-'}</TableCell>
+                        <TableCell>{order.price ? formatUSD(order.price) : '-'}</TableCell>
                         <TableCell>
                           <Badge 
                             variant="outline" 
@@ -390,10 +392,11 @@ export function OrdersManager() {
                           <TableCell>
                             {order.source_page === 'package' && 'باقة سياحية'}
                             {order.source_page === 'experience' && 'تجربة سياحية'}
-                            {order.source_page !== 'package' && order.source_page !== 'experience' && order.source_page}
+                            {order.source_page === 'trip' && 'رحلة سياحية'}
+                            {order.source_page !== 'package' && order.source_page !== 'experience' && order.source_page !== 'trip' && order.source_page}
                           </TableCell>
                           <TableCell>{new Date(order.date).toLocaleDateString('ar-EG')}</TableCell>
-                          <TableCell>{order.price ? `${order.price} ج.م` : '-'}</TableCell>
+                          <TableCell>{order.price ? formatUSD(order.price) : '-'}</TableCell>
                           <TableCell>
                             <Badge variant="outline" className="bg-yellow-50 text-yellow-700 border-yellow-200">
                               قيد الانتظار
@@ -472,7 +475,7 @@ export function OrdersManager() {
                             {order.source_page !== 'package' && order.source_page !== 'experience' && order.source_page}
                           </TableCell>
                           <TableCell>{new Date(order.date).toLocaleDateString('ar-EG')}</TableCell>
-                          <TableCell>{order.price ? `${order.price} ج.م` : '-'}</TableCell>
+                          <TableCell>{order.price ? formatUSD(order.price) : '-'}</TableCell>
                           <TableCell>
                             <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
                               مؤكد
@@ -543,7 +546,7 @@ export function OrdersManager() {
                             {order.source_page !== 'package' && order.source_page !== 'experience' && order.source_page}
                           </TableCell>
                           <TableCell>{new Date(order.date).toLocaleDateString('ar-EG')}</TableCell>
-                          <TableCell>{order.price ? `${order.price} ج.م` : '-'}</TableCell>
+                          <TableCell>{order.price ? formatUSD(order.price) : '-'}</TableCell>
                           <TableCell>
                             <Badge variant="outline" className="bg-red-50 text-red-700 border-red-200">
                               ملغي
@@ -631,7 +634,7 @@ export function OrdersManager() {
                   </div>
                   <div className="flex items-center gap-2">
                     <DollarSign size={16} className="text-gray-400" />
-                    <span>{selectedOrder.price ? `${selectedOrder.price} ج.م` : '-'}</span>
+                    <span>{selectedOrder.price ? formatUSD(selectedOrder.price) : '-'}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Calendar size={16} className="text-gray-400" />

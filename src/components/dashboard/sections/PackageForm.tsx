@@ -62,11 +62,22 @@ export default function PackageForm({ initialData, onSuccess, onCancel }: Packag
       <Input name="group_size" placeholder="عدد الأفراد" value={form.group_size} onChange={handleChange} required />
       <Input name="rating" placeholder="التقييم" type="number" value={form.rating} onChange={handleChange} required />
       <Input name="price" placeholder="السعر" value={form.price} onChange={handleChange} required />
-      <Input name="image" placeholder="رابط الصورة" value={form.image} onChange={handleChange} required />
+      <Input name="image" placeholder="رابط الصورة (يفضل 1200x800)" value={form.image} onChange={handleChange} required />
+      {form.image && (
+        <img
+          src={form.image || 'https://placehold.co/600x400?text=No+Image'}
+          alt="معاينة الصورة"
+          className="w-full h-40 object-cover rounded-md bg-gray-100"
+          loading="lazy"
+          onError={(e) => {
+            (e.target as HTMLImageElement).src = 'https://placehold.co/600x400?text=No+Image';
+          }}
+        />
+      )}
       <Input name="highlights" placeholder="مميزات الباقة (افصل بينها بفاصلة)" value={form.highlights} onChange={handleChange} />
       <div className="flex gap-2 justify-end">
         <Button type="button" variant="secondary" onClick={onCancel} disabled={loading}>إلغاء</Button>
-        <Button type="submit" loading={loading}>{initialData?.id ? 'تحديث' : 'إضافة الباقة'}</Button>
+        <Button type="submit" disabled={loading}>{loading ? 'جاري الحفظ...' : (initialData?.id ? 'تحديث' : 'إضافة الباقة')}</Button>
       </div>
     </form>
   );

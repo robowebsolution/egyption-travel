@@ -51,13 +51,24 @@ export default function ExperienceForm({ initialData, onSuccess, onCancel }: Exp
     <form onSubmit={handleSubmit} className="space-y-4" dir="rtl">
       <Input name="title" placeholder="عنوان التجربة" value={form.title} onChange={handleChange} required />
       <Textarea name="description" placeholder="وصف التجربة" value={form.description} onChange={handleChange} required />
-      <Input name="image" placeholder="رابط الصورة" value={form.image} onChange={handleChange} required />
+      <Input name="image" placeholder="رابط الصورة (يفضل 1200x800)" value={form.image} onChange={handleChange} required />
+      {form.image && (
+        <img
+          src={form.image || 'https://placehold.co/600x400?text=No+Image'}
+          alt="معاينة الصورة"
+          className="w-full h-40 object-cover rounded-md bg-gray-100"
+          loading="lazy"
+          onError={(e) => {
+            (e.target as HTMLImageElement).src = 'https://placehold.co/600x400?text=No+Image';
+          }}
+        />
+      )}
       <Input name="category" placeholder="الفئة" value={form.category} onChange={handleChange} />
       <Input name="duration" placeholder="المدة" value={form.duration} onChange={handleChange} />
       <Input name="price" placeholder="السعر" value={form.price} onChange={handleChange} />
       <div className="flex gap-2 justify-end">
         <Button type="button" variant="secondary" onClick={onCancel} disabled={loading}>إلغاء</Button>
-        <Button type="submit" loading={loading}>{initialData?.id ? 'تحديث' : 'إضافة التجربة'}</Button>
+        <Button type="submit" disabled={loading}>{loading ? 'جاري الحفظ...' : (initialData?.id ? 'تحديث' : 'إضافة التجربة')}</Button>
       </div>
     </form>
   );

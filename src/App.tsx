@@ -9,6 +9,7 @@ import { LanguageProvider } from "@/contexts/LanguageContext";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import PageTransition from "@/components/PageTransition";
+import FloatingContact from "@/components/FloatingContact";
 import Index from "./pages/Index";
 import Destinations from "./pages/Destinations";
 import Packages from "./pages/Packages";
@@ -65,6 +66,8 @@ const App = () => (
                     </Routes>
                   </main>
                   </PageTransition>
+                  {/* Floating contact buttons (phone + WhatsApp) */}
+                  <FloatingContact />
                   <Footer />
                 </div>
               } />
